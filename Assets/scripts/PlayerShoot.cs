@@ -10,7 +10,7 @@ public class PlayerShoot : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)) // Check for spacebar press
         {
             Instantiate(bulletPrefab, shootingPoint.position, shootingPoint.rotation); // Spawn a bullet
-                                                                                       // Add force or velocity to the bullet to make it move
+                                                                                       
         }
     }
 }
