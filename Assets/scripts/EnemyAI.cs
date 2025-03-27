@@ -8,15 +8,14 @@ public class EnemyAI : MonoBehaviour
     private NavMeshAgent agent;
 
     private Coroutine destroyRoutine = null;
-    private ResetEnemy enemyReset;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        enemyReset = GetComponent<ResetEnemy>();
+        ResetManager.Instance.RegisterObject(transform);
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         if (destroyRoutine != null) return;
         if (!other.gameObject.CompareTag("bullet")) return;
@@ -30,15 +29,18 @@ public class EnemyAI : MonoBehaviour
         {
             AudioManager.Instance.PlaySound("win");
         }
+
+        agent.isStopped = true;
+        agent.velocity = Vector3.zero;
         //Destroy(gameObject);
-        if (enemyReset != null)
-        {
-            enemyReset.ResetTransform();
-        }
-        else
-        {
-            Debug.LogError("EnemyReset script not found on " + gameObject.name);
-        }
+        ResetManager.Instance.ResetObject(transform);
+
+        yield return new WaitForSeconds(0.1f);
+        gameObject.SetActive(true);
+        agent.isStopped = false;
+        agent.SetDestination(player.position);
+
+        destroyRoutine = null;
     }
 
     void Update()

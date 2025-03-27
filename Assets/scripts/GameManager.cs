@@ -7,8 +7,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int maxLives = 3;
     [SerializeField] private int score = 0;
     [SerializeField] public int bullets = 20;
-    [SerializeField] private LivesCounterUI livesCounter;
-    [SerializeField] private ScoreUI scoreCounter;
 
     public void incrementScore()
     {
@@ -16,25 +14,17 @@ public class GameManager : MonoBehaviour
      
     }
 
-    public void KillBall()
-    {
-        maxLives--;
-        livesCounter.UpdateLives(maxLives);
-
-        if (maxLives == 0)
-        {
-            AudioManager.Instance.StopMusic(); // Stop the ambient music
-            AudioManager.Instance.PlaySound("game-over"); // Play game-over sound
-            SceneHandler.Instance.LoadGameOverScene();
-            StartCoroutine(Wait());
-        }
-        ball.ResetBall();
-    }
-
     public void incrementBullet()
     {
         bullets += 10;
         score += 5;
 
+    }
+
+    private IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(2.5f);
+        //SceneHandler.Instance.LoadMenuScene();
+        AudioManager.Instance.RestartMusicAfterDelay(2.5f);
     }
 }

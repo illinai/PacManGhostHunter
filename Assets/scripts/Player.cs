@@ -22,6 +22,8 @@ public class Player : MonoBehaviour
             mainCamera = Camera.main;
         }
 
+        ResetManager.Instance.RegisterObject(transform);
+
     }
 
     //
@@ -68,5 +70,17 @@ public class Player : MonoBehaviour
             }
         }
 
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy")) 
+            ResetPlayer();
+    }
+
+    public void ResetPlayer()
+    {
+        ResetManager.Instance.ResetObject(transform);
+        // Player keeps bullets, so no additional changes needed here
     }
 }
