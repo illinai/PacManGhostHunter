@@ -11,6 +11,10 @@ public class Coins : MonoBehaviour
         {
             //GameManager.instance.AddScore(1); // Add to score
             gm.incrementScore();
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySound("coin_collect");
+            }
             Destroy(gameObject); // Remove coin
         }
 

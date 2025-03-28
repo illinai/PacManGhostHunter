@@ -10,6 +10,10 @@ public class PowerUpCoin : MonoBehaviour
         {
             //GameManager.instance.AddScore(1); // Add to score
             gm.incrementBullet();
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySound("ammo");
+            }
             Destroy(gameObject); // Remove coin
         }
 
