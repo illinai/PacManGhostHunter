@@ -26,10 +26,12 @@ MonoBehaviour:
     m_path: Assets/Scenes/MainMenu.unity
   - m_enabled: 1
     m_path: Assets/Scenes/level1.unity
-  - m_enabled: 1
+  - m_enabled: 0
     m_path: Assets/Scenes/level2.unity
-  - m_enabled: 1
+  - m_enabled: 0
     m_path: Assets/Scenes/level3.unity
+  - m_enabled: 1
+    m_path: Assets/Scenes/GameOver.unity
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:
     m_Settings:
@@ -587,6 +589,9 @@ MonoBehaviour:
     - line: '|   - serializedVersion: 3'
     - line: '|     m_BuildTarget: Android'
     - line: '|     m_Formats: 03000000'
+    - line: '|   - serializedVersion: 3'
+    - line: '|     m_BuildTarget: WebGL'
+    - line: '|     m_Formats: 05000000'
     - line: '|   playModeTestRunnerEnabled: 0'
     - line: '|   runPlayModeTestAsEditModeTest: 0'
     - line: '|   actionOnDotNetUnhandledException: 1'
