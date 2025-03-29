@@ -16,6 +16,10 @@ public class PlayerShoot : MonoBehaviour
             if (gm.bullets != 0)
             {
                 Instantiate(bulletPrefab, shootingPoint.position, shootingPoint.rotation); // Spawn a bullet
+                if (AudioManager.Instance != null)
+                {
+                    AudioManager.Instance.PlaySound("bullet");
+                }
                 gm.bullets--;
             }
                                                                                        
