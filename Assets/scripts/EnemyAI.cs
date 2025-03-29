@@ -6,7 +6,6 @@ public class EnemyAI : MonoBehaviour
 {
     public Transform player; // Assign the player in the Inspector
     private NavMeshAgent agent;
-
     private Coroutine destroyRoutine = null;
 
     void Start()

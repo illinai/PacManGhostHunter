@@ -54,6 +54,9 @@ public class SceneHandler : SingletonMonoBehavior<SceneHandler>
 
     public void LoadGameOverScene()
     {
+        DestroyUI("ScoreCanvas");
+        DestroyUI("BulletCanvas");
+        DestroyUI("LivesCanvas");
         transitionCanvas.DOLocalMoveY(initYPosition - transitionCanvas.rect.height, animationDuration).SetEase(menuAnimationType);
         StartCoroutine(LoadSceneAfterTransition(gameOverScene));
         nextLevelIndex = 0;
@@ -63,6 +66,12 @@ public class SceneHandler : SingletonMonoBehavior<SceneHandler>
     {
         yield return new WaitForSeconds(animationDuration);
         SceneManager.LoadScene(scene);
+    }
+
+    private void DestroyUI(string canvasName)
+    {
+        GameObject ui = GameObject.Find(canvasName);
+        if (ui != null) Destroy(ui);
     }
 
 }

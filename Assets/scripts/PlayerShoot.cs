@@ -6,11 +6,8 @@ public class PlayerShoot : MonoBehaviour
     public Transform shootingPoint;
     public GameManager gm;
 
-
     void Update()
     {
-        
-       
         if (Input.GetKeyDown(KeyCode.Space)) // Check for spacebar press
         {
             if (gm.bullets != 0)
@@ -21,8 +18,7 @@ public class PlayerShoot : MonoBehaviour
                     AudioManager.Instance.PlaySound("bullet");
                 }
                 gm.bullets--;
-            }
-                                                                                       
+            }                                                                        
         }
     }
 }

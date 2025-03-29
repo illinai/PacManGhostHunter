@@ -8,8 +8,7 @@ public class PowerUpCoin : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            //GameManager.instance.AddScore(1); // Add to score
-            gm.incrementBullet();
+            gm.IncrementBullet();
             if (AudioManager.Instance != null)
             {
                 AudioManager.Instance.PlaySound("ammo");

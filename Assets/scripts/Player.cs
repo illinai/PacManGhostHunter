@@ -5,46 +5,32 @@ public class Player : MonoBehaviour
     [SerializeField] private InputManager inputManager;
     [SerializeField] float speed;
     [SerializeField] private Rigidbody rb;
-
-    //
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Transform gunTransform;
-
 
     void Start()
     {
         inputManager.OnMove.AddListener(MovePlayer);
         rb = GetComponent<Rigidbody>();
 
-        //
         if (mainCamera == null)
         {
             mainCamera = Camera.main;
         }
-
         ResetManager.Instance.RegisterObject(transform);
-
     }
 
-    //
     void Update()
     {
         RotateToMouse();
     }
 
-
-
     private void MovePlayer(Vector2 direction)
     {
-
         Vector3 moveDirection = new Vector3(direction.x, 0, direction.y);
         rb.AddForce(speed * moveDirection);
     }
 
-
-
-
-    //
     private void RotateToMouse()
     {
         // Create a ray from the mouse position into the world
@@ -69,13 +55,16 @@ public class Player : MonoBehaviour
                 }
             }
         }
-
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy")) 
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            GameManager.Instance.DecreaseLives();
             ResetPlayer();
+        }
+
     }
 
     public void ResetPlayer()

@@ -9,8 +9,7 @@ public class Coins : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            //GameManager.instance.AddScore(1); // Add to score
-            gm.incrementScore();
+            gm.IncrementScore();
             if (AudioManager.Instance != null)
             {
                 AudioManager.Instance.PlaySound("coin_collect");
