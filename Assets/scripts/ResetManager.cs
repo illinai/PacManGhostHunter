@@ -5,6 +5,8 @@ using UnityEngine.AI;
 
 public class ResetManager : MonoBehaviour
 {
+    private int minimumEnemies = 1;
+
     public static ResetManager Instance {
         get;
         private set;
@@ -44,14 +46,31 @@ public class ResetManager : MonoBehaviour
         return player;
     }
 
+    public void SetMinimumEnemies(int count)
+    {
+        minimumEnemies = count;
+        Debug.Log("Minimum enemies set to: " + minimumEnemies);
+    }
+
     public void RegisterObject(Transform obj)
     {
-        if (obj.CompareTag("Player")) return;
+        if (obj.CompareTag("Player"))
+        {
+            player = obj;
+            if (!initialStates.ContainsKey(obj))
+            {
+                initialStates[obj] = (obj.position, obj.rotation);
+            }
+            return; 
+        }
 
+        
         if (!initialStates.ContainsKey(obj))
         {
             initialStates[obj] = (obj.position, obj.rotation);
         }
+
+        
         if (!activeEnemies.Contains(obj) && obj.gameObject.activeInHierarchy)
         {
             activeEnemies.Add(obj);
@@ -68,7 +87,7 @@ public class ResetManager : MonoBehaviour
             obj.rotation = rot;
             obj.gameObject.SetActive(true);
 
-            if (!activeEnemies.Contains(obj))
+            if (!obj.CompareTag("Player") && !activeEnemies.Contains(obj))
             {
                 activeEnemies.Add(obj);
                 Debug.Log("Reset enemy: " + obj.name + " | Active enemies: " + activeEnemies.Count);
@@ -90,9 +109,9 @@ public class ResetManager : MonoBehaviour
         Destroy(obj.gameObject);
 
         // Ensure at least one enemy exists
-        if (activeEnemies.Count == 0)
+        if (activeEnemies.Count < minimumEnemies)
         {
-            Debug.Log("All enemies gone, respawning one...");
+            Debug.Log("Enemies below minimum. Respawning ...");
             SpawnExtraEnemy();
         }
     }
