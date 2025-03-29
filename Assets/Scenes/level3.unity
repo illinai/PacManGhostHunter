@@ -6768,8 +6768,8 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 1
+  m_Center: {x: 0.2, y: 0, z: 0.2}
 --- !u!4 &523321963
 Transform:
   m_ObjectHideFlags: 0
@@ -9505,6 +9505,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7d6e8ca6be8e81f488891100bba68192, type: 3}
   - {fileID: 8300000, guid: 4240a4160ac777f4b8ed02aa605f5ec8, type: 3}
   - {fileID: 8300000, guid: b28e53f96980e324ca64908fc1f1835d, type: 3}
+  - {fileID: 8300000, guid: a1b1c48c2b88b4b4aa5c4a95b878e709, type: 3}
 --- !u!4 &716907520
 Transform:
   m_ObjectHideFlags: 0
