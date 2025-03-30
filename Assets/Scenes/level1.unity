@@ -4975,6 +4975,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 6465016385045702549, guid: 75b09649905764c5397bb9ee2b7a69b8, type: 3}
   shootingPoint: {fileID: 29972529}
   gm: {fileID: 1210236630}
+  bulletUI: {fileID: 573266842}
 --- !u!4 &729595464 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2904223342482591969, guid: aa74fcd4e32ba403585b187a827435b9, type: 3}

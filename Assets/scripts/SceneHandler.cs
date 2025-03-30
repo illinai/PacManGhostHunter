@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -29,6 +28,16 @@ public class SceneHandler : SingletonMonoBehavior<SceneHandler>
     private void OnSceneLoad(Scene scene, LoadSceneMode _)
     {
         transitionCanvas.DOLocalMoveY(initYPosition, animationDuration).SetEase(menuAnimationType);
+
+        if (scene.name != menuScene && scene.name != gameOverScene)
+        {
+            if (GameManager.Instance == null)
+            {
+                Debug.LogWarning("GameManager is missing.");
+                GameObject gm = GameObject.Find("GameManager");
+                Debug.Log(gm != null ? "GameManager found in hierarchy." : "GameManager not found.");
+            }
+        }
     }
 
     public void LoadNextScene()
@@ -39,7 +48,7 @@ public class SceneHandler : SingletonMonoBehavior<SceneHandler>
         }
         else
         {
-            transitionCanvas.DOLocalMoveY(initYPosition - transitionCanvas.rect.height, animationDuration).SetEase(menuAnimationType);
+            LoadTransitionAnimation(initYPosition - transitionCanvas.rect.height);
             StartCoroutine(LoadSceneAfterTransition(levels[nextLevelIndex]));
             nextLevelIndex++;
         }
@@ -47,17 +56,14 @@ public class SceneHandler : SingletonMonoBehavior<SceneHandler>
 
     public void LoadMenuScene()
     {
-        transitionCanvas.DOLocalMoveY(initYPosition - transitionCanvas.rect.height, animationDuration).SetEase(menuAnimationType);
+        LoadTransitionAnimation(initYPosition - transitionCanvas.rect.height);
         StartCoroutine(LoadSceneAfterTransition(menuScene));
         nextLevelIndex = 0;
     }
 
     public void LoadGameOverScene()
     {
-        DestroyUI("ScoreCanvas");
-        DestroyUI("BulletCanvas");
-        DestroyUI("LivesCanvas");
-        transitionCanvas.DOLocalMoveY(initYPosition - transitionCanvas.rect.height, animationDuration).SetEase(menuAnimationType);
+        LoadTransitionAnimation(initYPosition - transitionCanvas.rect.height);
         StartCoroutine(LoadSceneAfterTransition(gameOverScene));
         nextLevelIndex = 0;
     }
@@ -68,10 +74,8 @@ public class SceneHandler : SingletonMonoBehavior<SceneHandler>
         SceneManager.LoadScene(scene);
     }
 
-    private void DestroyUI(string canvasName)
+    private void LoadTransitionAnimation(float targetYPosition)
     {
-        GameObject ui = GameObject.Find(canvasName);
-        if (ui != null) Destroy(ui);
+        transitionCanvas.DOLocalMoveY(targetYPosition, animationDuration).SetEase(menuAnimationType);
     }
-
 }

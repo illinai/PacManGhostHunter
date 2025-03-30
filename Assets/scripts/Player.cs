@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private InputManager inputManager;
+    private GameManager gameManager;
+    private InputManager inputManager;
     [SerializeField] float speed;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Camera mainCamera;
@@ -10,9 +11,25 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        inputManager.OnMove.AddListener(MovePlayer);
+        gameManager = GameManager.Instance;
+        if (gameManager != null)
+        {  
+            inputManager = gameManager.InputManager;
+            if (inputManager != null)
+            {
+                inputManager.OnMove.AddListener(MovePlayer);
+            }
+            else
+            {
+                Debug.LogWarning("InputManager is missing.");
+            }
+        }
+        else
+        {
+            Debug.LogError("GameManager is missing.");
+        }
+        
         rb = GetComponent<Rigidbody>();
-
         if (mainCamera == null)
         {
             mainCamera = Camera.main;
@@ -64,7 +81,6 @@ public class Player : MonoBehaviour
             GameManager.Instance.DecreaseLives();
             ResetPlayer();
         }
-
     }
 
     public void ResetPlayer()
