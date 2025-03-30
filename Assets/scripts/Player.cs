@@ -79,6 +79,10 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy"))
         {
             GameManager.Instance.DecreaseLives();
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySound("damage");
+            }
             ResetPlayer();
         }
     }
