@@ -12,6 +12,15 @@ public class EnemyAI : MonoBehaviour
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        Transform playerTransform = ResetManager.Instance.GetPlayerTransform();
+        if (playerTransform != null)
+        {
+            player = playerTransform;
+        }
+        else
+        {
+            Debug.LogError("Enemy AI: Player reference not found!");
+        }
         ResetManager.Instance.RegisterObject(transform);
     }
 
@@ -32,8 +41,24 @@ public class EnemyAI : MonoBehaviour
 
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
+
+        int enemyCount = ResetManager.Instance.GetEnemyCount();
+
         //Destroy(gameObject);
-        ResetManager.Instance.ResetObject(transform);
+        if (enemyCount <= 1)
+        {
+            // If it's the last enemy, reset it instead of destroying
+            Debug.Log("Only one enemy left, resetting.");
+            ResetManager.Instance.ResetObject(transform);
+        }
+        else
+        {
+            // Otherwise, remove this enemy from the game
+            Debug.Log("Multiple enemies left, removing this one.");
+            Debug.Log(enemyCount);
+            ResetManager.Instance.RemoveEnemy(transform);
+            yield break; // Stop coroutine to prevent further execution
+        }
 
         yield return new WaitForSeconds(0.1f);
         gameObject.SetActive(true);
@@ -43,9 +68,14 @@ public class EnemyAI : MonoBehaviour
         destroyRoutine = null;
     }
 
+    public void AssignPlayer(Transform playerTransform)
+    {
+        player = playerTransform;
+    }
+
     void Update()
     {
-        if (player != null)
+        if (player != null && agent.enabled && agent.isOnNavMesh)
         {
             agent.SetDestination(player.position); // Enemy chases player
         }

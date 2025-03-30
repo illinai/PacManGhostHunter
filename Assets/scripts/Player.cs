@@ -74,8 +74,15 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Enemy")) 
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySound("damage");
+            }
             ResetPlayer();
+        }
+
     }
 
     public void ResetPlayer()
