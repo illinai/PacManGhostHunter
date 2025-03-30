@@ -33,8 +33,8 @@ public class GameManager : SingletonMonoBehavior<GameManager>
         score += 10;
         scoreUI.UpdateScore(score);
         Debug.Log($"Coins {activeCoins.Count}/{totalCoinCount} remaining");
-        if (score == 50) SceneHandler.Instance.LoadNextScene(); // test scene handling
-        //if (activeCoins.Count == 0) SceneHandler.Instance.LoadNextScene();
+        //if (score == 50) SceneHandler.Instance.LoadNextScene(); // test scene handling
+        if (activeCoins.Count == 0) SceneHandler.Instance.LoadNextScene();
     }
 
     public void IncrementBullet()
