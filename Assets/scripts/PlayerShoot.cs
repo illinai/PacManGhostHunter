@@ -2,27 +2,42 @@ using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
 {
+    private GameManager gameManager;
+    private InputManager inputManager;
     public GameObject bulletPrefab;  // Drag your bullet prefab here in the Inspector
     public Transform shootingPoint;
-    public GameManager gm;
-
-
-    void Update()
+    private void Start()
     {
-        
-       
-        if (Input.GetKeyDown(KeyCode.Space)) // Check for spacebar press
+        gameManager = GameManager.Instance;
+        if (gameManager != null)
         {
-            if (gm.bullets != 0)
+            inputManager = gameManager.InputManager;
+            if (inputManager != null)
             {
-                Instantiate(bulletPrefab, shootingPoint.position, shootingPoint.rotation); // Spawn a bullet
-                if (AudioManager.Instance != null)
-                {
-                    AudioManager.Instance.PlaySound("bullet");
-                }
-                gm.bullets--;
+                inputManager.OnSpacePressed.AddListener(ShootBullet);
             }
-                                                                                       
+            else
+            {
+                Debug.LogWarning("InputManager is missing.");
+            }
         }
+        else
+        {
+            Debug.LogError("GameManager is missing.");
+        }
+    }
+
+    private void ShootBullet()
+    {
+        if (gameManager != null && gameManager.CanShootBullet())
+        {
+            Instantiate(bulletPrefab, shootingPoint.position, shootingPoint.rotation); // Spawn a bullet
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySound("bullet");
+            }
+            gameManager.DecreaseBullets();
+        }
+
     }
 }

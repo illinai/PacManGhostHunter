@@ -2,49 +2,52 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private InputManager inputManager;
+    private GameManager gameManager;
+    private InputManager inputManager;
     [SerializeField] float speed;
     [SerializeField] private Rigidbody rb;
-
-    //
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Transform gunTransform;
 
-
     void Start()
     {
-        inputManager.OnMove.AddListener(MovePlayer);
+        gameManager = GameManager.Instance;
+        if (gameManager != null)
+        {  
+            inputManager = gameManager.InputManager;
+            if (inputManager != null)
+            {
+                inputManager.OnMove.AddListener(MovePlayer);
+            }
+            else
+            {
+                Debug.LogWarning("InputManager is missing.");
+            }
+        }
+        else
+        {
+            Debug.LogError("GameManager is missing.");
+        }
+        
         rb = GetComponent<Rigidbody>();
-
-        //
         if (mainCamera == null)
         {
             mainCamera = Camera.main;
         }
-
         ResetManager.Instance.RegisterObject(transform);
-
     }
 
-    //
     void Update()
     {
         RotateToMouse();
     }
 
-
-
     private void MovePlayer(Vector2 direction)
     {
-
         Vector3 moveDirection = new Vector3(direction.x, 0, direction.y);
         rb.AddForce(speed * moveDirection);
     }
 
-
-
-
-    //
     private void RotateToMouse()
     {
         // Create a ray from the mouse position into the world
@@ -69,20 +72,19 @@ public class Player : MonoBehaviour
                 }
             }
         }
-
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
+            GameManager.Instance.DecreaseLives();
             if (AudioManager.Instance != null)
             {
                 AudioManager.Instance.PlaySound("damage");
             }
             ResetPlayer();
         }
-
     }
 
     public void ResetPlayer()

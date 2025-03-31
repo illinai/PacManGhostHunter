@@ -1,17 +1,14 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class InputManager : MonoBehaviour
+public class InputManager : SingletonMonoBehavior<InputManager>
 {
-
     public UnityEvent<Vector2> OnMove = new UnityEvent<Vector2>();
     public UnityEvent OnSpacePressed = new UnityEvent();
 
     void Update()
     {
         Vector2 input = Vector2.zero;
-
-        Vector3 input2 = Vector3.zero;
 
         if (Input.GetKey(KeyCode.W))
         {
@@ -30,5 +27,10 @@ public class InputManager : MonoBehaviour
             input += Vector2.right;
         }
         OnMove?.Invoke(input);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            OnSpacePressed?.Invoke();
+        }
     }
 }
