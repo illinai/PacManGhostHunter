@@ -44,8 +44,8 @@ public class Player : MonoBehaviour
 
     private void MovePlayer(Vector2 direction)
     {
-        Vector3 moveDirection = new Vector3(direction.x, 0, direction.y);
-        rb.AddForce(speed * moveDirection);
+        Vector3 moveDirection = new Vector3(direction.x, 0f, direction.y); ;
+        rb.AddForce(speed * moveDirection, ForceMode.Force);
     }
 
     private void RotateToMouse()
