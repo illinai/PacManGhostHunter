@@ -27,5 +27,10 @@ public class InputManager : SingletonMonoBehavior<InputManager>
             input += Vector2.right;
         }
         OnMove?.Invoke(input);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            OnSpacePressed?.Invoke();
+        }
     }
 }

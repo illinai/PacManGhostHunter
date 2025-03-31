@@ -2,14 +2,15 @@ using UnityEngine;
 
 public class Coins : MonoBehaviour
 {
-    private void OnEnable()
+    [SerializeField] private int coinValue = 10;
+    private void Start()
     {
         if (GameManager.Instance != null)
         {
             GameManager.Instance.RegisterCoin(this);
         }
     }
-    private void OnDisable()
+    private void OnDestroy()
     {
         if (GameManager.Instance != null)
         {
@@ -22,12 +23,12 @@ public class Coins : MonoBehaviour
         {
             if (GameManager.Instance != null)
             {
-                GameManager.Instance.IncrementScore();
+                GameManager.Instance.IncrementScore(coinValue);
             }
 
             if (AudioManager.Instance != null)
             {
-                //AudioManager.Instance.PlaySound("coin_collect");
+                AudioManager.Instance.PlaySound("coin_collect");
             }
             Destroy(gameObject); // Remove coin
         }

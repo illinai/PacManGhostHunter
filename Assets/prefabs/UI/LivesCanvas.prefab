@@ -800,7 +800,8 @@ GameObject:
   - component: {fileID: 8582409240370617357}
   - component: {fileID: 7300299518336538847}
   - component: {fileID: 1864815046195606050}
-  - component: {fileID: 2009546165322155348}
+  - component: {fileID: 6556077484740002973}
+  - component: {fileID: 6144021558219104236}
   m_Layer: 5
   m_Name: LivesCanvas
   m_TagString: Untagged
@@ -891,7 +892,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &2009546165322155348
+--- !u!114 &6556077484740002973
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -900,11 +901,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 8961305068782179254}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81906a26bc25e41649cbebcf6249e5a9, type: 3}
+  m_Script: {fileID: 11500000, guid: d655a8e9b628b42a293da6529640e9aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uIType: 1
   current: {fileID: 4307940597752125388}
   toUpdate: {fileID: 5100622530595628471}
-  livesTextContainer: {fileID: 9208030905636731497}
+  textContainer: {fileID: 9208030905636731497}
   duration: 0.5
   animationCurve: 29
+--- !u!114 &6144021558219104236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8961305068782179254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63de7402a42444e02837e8f44006df74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

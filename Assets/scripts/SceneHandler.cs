@@ -28,8 +28,9 @@ public class SceneHandler : SingletonMonoBehavior<SceneHandler>
     private void OnSceneLoad(Scene scene, LoadSceneMode _)
     {
         transitionCanvas.DOLocalMoveY(initYPosition, animationDuration).SetEase(menuAnimationType);
+        Debug.Log("Loaded scene: " + scene.name);
 
-        if (scene.name != menuScene && scene.name != gameOverScene)
+        if (scene.name != menuScene && scene.name != gameOverScene && scene.name != "_Preload")
         {
             if (GameManager.Instance == null)
             {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,12 +6,12 @@ using UnityEngine;
 public class GameManager : SingletonMonoBehavior<GameManager>
 {
     public InputManager InputManager { get; private set; }
-    [SerializeField] private int maxLives = 3;
-    [SerializeField] private LivesUI livesUI;
+    public event Action<int> OnScoreChanged;
+    public event Action<int> OnLivesChanged;
+    public event Action<int> OnBulletsChanged;
     [SerializeField] private int score = 0;
-    [SerializeField] private ScoreUI scoreUI;
+    [SerializeField] private int maxLives = 3;
     [SerializeField] public int bullets = 10;
-    [SerializeField] private BulletUI bulletUI;
     private List<Coins> activeCoins = new List<Coins>();
     private int totalCoinCount;
     protected override void Awake()
@@ -26,31 +27,59 @@ public class GameManager : SingletonMonoBehavior<GameManager>
     {
         totalCoinCount = CountCoins();
         Debug.Log("Total coins in the scene: " + totalCoinCount);
+
+        OnScoreChanged?.Invoke(score);
+        OnLivesChanged?.Invoke(maxLives);
+        OnBulletsChanged?.Invoke(bullets);
     }
 
-    public void IncrementScore()
+    public void IncrementScore(int amount = 10)
     {
-        score += 10;
-        scoreUI.UpdateScore(score);
+        score += amount;
+        OnScoreChanged?.Invoke(score);
         Debug.Log($"Coins {activeCoins.Count}/{totalCoinCount} remaining");
-        //if (score == 50) SceneHandler.Instance.LoadNextScene(); // test scene handling
-        if (activeCoins.Count == 0) SceneHandler.Instance.LoadNextScene();
-    }
 
-    public void IncrementBullet()
+        if (activeCoins.Count == 0)
+        {
+            SceneHandler.Instance.LoadNextScene();
+        }
+          
+        // quick test cases for advancing to other levels
+        // if (score == 100)
+        // {
+        //     SceneHandler.Instance.LoadNextScene();
+        // }
+        // if (score == 250)
+        // {
+        //     SceneHandler.Instance.LoadNextScene();
+        // }
+
+    }
+    public bool CanShootBullet()
     {
-        bullets += 10;
-        bulletUI.UpdateBullet(bullets);
+        return bullets > 0;
+    }
+    public void IncrementBullets(int amount = 10)
+    {
+        bullets += amount;
+        OnBulletsChanged?.Invoke(bullets);
         Debug.Log("Bullets: " + bullets);
-        score += 5;
-        scoreUI.UpdateScore(score);
-        Debug.Log("Score: " + score);
+
+        IncrementScore(5);
+    }
+    public void DecreaseBullets()
+    {
+        if (bullets > 0)
+        {
+            bullets--;
+            OnBulletsChanged?.Invoke(bullets);
+        }
     }
 
     public void DecreaseLives()
     {
         maxLives--;
-        livesUI.UpdateLives(maxLives);
+        OnLivesChanged?.Invoke(maxLives);
 
         if (maxLives <= 0) {
             AudioManager.Instance.StopMusic();
@@ -58,29 +87,27 @@ public class GameManager : SingletonMonoBehavior<GameManager>
             SceneHandler.Instance.LoadGameOverScene();
         }
     }
+
     public void ResetGame()
     {
         score = 0;
         maxLives = 3;
         bullets = 10;
-        scoreUI.UpdateScore(score);
-        livesUI.UpdateLives(maxLives);
-        bulletUI.UpdateBullet(bullets);
+
+        OnScoreChanged?.Invoke(score);
+        OnLivesChanged?.Invoke(maxLives);
+        OnBulletsChanged?.Invoke(bullets);
     }
 
-    private IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(2.5f);
-        SceneHandler.Instance.LoadMenuScene();
-        AudioManager.Instance.RestartMusicAfterDelay(2.5f);
-    }
     public void RegisterCoin(Coins coin)
     {
         if (!activeCoins.Contains(coin))
         {
             activeCoins.Add(coin);
+            totalCoinCount = CountCoins();
         }
     }
+
     public void UnregisterCoin(Coins coin)
     {
         if (activeCoins.Contains(coin))

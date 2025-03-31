@@ -13,7 +13,7 @@ public abstract class SingletonMonoBehavior<T> : MonoBehaviour where T : MonoBeh
                 _instance = FindAnyObjectByType<T>();
                 if (_instance == null)
                 {
-                    Debug.LogError($"SingletonMonoBehavior<{typeof(T)}> instance not found.");
+                    //Debug.LogError($"SingletonMonoBehavior<{typeof(T)}> instance not found.");
                 }
             }
             return _instance;
