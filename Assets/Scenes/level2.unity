@@ -6016,7 +6016,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a057981e3fdc74c0fbadbf56c04c60ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  speed: 8
   rb: {fileID: 692460186}
   mainCamera: {fileID: 1914871718}
   gunTransform: {fileID: 764522199}

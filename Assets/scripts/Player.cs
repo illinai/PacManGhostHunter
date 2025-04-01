@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private Transform gunTransform;
+    private Vector2 moveInput = Vector2.zero;
 
     void Start()
     {
@@ -17,7 +18,7 @@ public class Player : MonoBehaviour
             inputManager = gameManager.InputManager;
             if (inputManager != null)
             {
-                inputManager.OnMove.AddListener(MovePlayer);
+                inputManager.OnMove.AddListener(SetPlayerMovement);
             }
             else
             {
@@ -36,16 +37,18 @@ public class Player : MonoBehaviour
         }
         ResetManager.Instance.RegisterObject(transform);
     }
+    private void SetPlayerMovement(Vector2 direction)
+    {
+        moveInput = direction.normalized;
+    }
+    private void FixedUpdate()
+    {
+        rb.linearVelocity = new Vector3(moveInput.x * speed, 0f, moveInput.y * speed);
+    }
 
     void Update()
     {
         RotateToMouse();
-    }
-
-    private void MovePlayer(Vector2 direction)
-    {
-        Vector3 moveDirection = new Vector3(direction.x, 0f, direction.y); ;
-        rb.AddForce(speed * moveDirection, ForceMode.Force);
     }
 
     private void RotateToMouse()
