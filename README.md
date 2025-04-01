@@ -8,4 +8,4 @@ The game ends when the player collects all of the yellow coins in all 3 levels, 
 The game can be played on [itch.io](https://muesli-joy.itch.io/pac-man-ghost-hunter).
 
 ### Gameplay Video Demo
-(to be updated)
+https://github.com/user-attachments/assets/6eba13ad-f934-4a95-bf1b-5a70c01022be
