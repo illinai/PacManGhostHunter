@@ -82,7 +82,6 @@ public class GameManager : SingletonMonoBehavior<GameManager>
         OnLivesChanged?.Invoke(maxLives);
 
         if (maxLives <= 0) {
-            AudioManager.Instance.StopMusic();
             ResetGame();
             SceneHandler.Instance.LoadGameOverScene();
         }
