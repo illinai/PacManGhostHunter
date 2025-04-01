@@ -66,7 +66,7 @@ public class SceneHandler : SingletonMonoBehavior<SceneHandler>
     {
         LoadTransitionAnimation(initYPosition - transitionCanvas.rect.height);
         StartCoroutine(LoadSceneAfterTransition(gameOverScene));
-        nextLevelIndex = 0;
+        //nextLevelIndex = 0;
     }
 
     private IEnumerator LoadSceneAfterTransition(string scene)
@@ -78,5 +78,10 @@ public class SceneHandler : SingletonMonoBehavior<SceneHandler>
     private void LoadTransitionAnimation(float targetYPosition)
     {
         transitionCanvas.DOLocalMoveY(targetYPosition, animationDuration).SetEase(menuAnimationType);
+    }
+
+    public string GetCurrentSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
     }
 }

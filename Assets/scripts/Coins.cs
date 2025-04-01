@@ -24,6 +24,7 @@ public class Coins : MonoBehaviour
             if (GameManager.Instance != null)
             {
                 GameManager.Instance.IncrementScore(coinValue);
+                GameManager.Instance.UnregisterCoin(this);
             }
 
             if (AudioManager.Instance != null)

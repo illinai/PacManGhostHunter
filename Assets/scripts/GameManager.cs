@@ -14,6 +14,7 @@ public class GameManager : SingletonMonoBehavior<GameManager>
     [SerializeField] public int bullets = 10;
     private List<Coins> activeCoins = new List<Coins>();
     private int totalCoinCount;
+    private string sceneName;
     protected override void Awake()
     {
         base.Awake();
@@ -25,7 +26,7 @@ public class GameManager : SingletonMonoBehavior<GameManager>
     }
     private void Start()
     {
-        totalCoinCount = CountCoins();
+        totalCoinCount = activeCoins.Count;
         Debug.Log("Total coins in the scene: " + totalCoinCount);
 
         OnScoreChanged?.Invoke(score);
@@ -37,23 +38,6 @@ public class GameManager : SingletonMonoBehavior<GameManager>
     {
         score += amount;
         OnScoreChanged?.Invoke(score);
-        Debug.Log($"Coins {activeCoins.Count}/{totalCoinCount} remaining");
-
-        if (activeCoins.Count == 0)
-        {
-            SceneHandler.Instance.LoadNextScene();
-        }
-          
-        // quick test cases for advancing to other levels
-        // if (score == 100)
-        // {
-        //     SceneHandler.Instance.LoadNextScene();
-        // }
-        // if (score == 250)
-        // {
-        //     SceneHandler.Instance.LoadNextScene();
-        // }
-
     }
     public bool CanShootBullet()
     {
@@ -93,6 +77,9 @@ public class GameManager : SingletonMonoBehavior<GameManager>
         maxLives = 3;
         bullets = 10;
 
+        activeCoins.Clear();
+        totalCoinCount = 0;
+
         OnScoreChanged?.Invoke(score);
         OnLivesChanged?.Invoke(maxLives);
         OnBulletsChanged?.Invoke(bullets);
@@ -103,7 +90,7 @@ public class GameManager : SingletonMonoBehavior<GameManager>
         if (!activeCoins.Contains(coin))
         {
             activeCoins.Add(coin);
-            totalCoinCount = CountCoins();
+            totalCoinCount = activeCoins.Count;
         }
     }
 
@@ -112,11 +99,12 @@ public class GameManager : SingletonMonoBehavior<GameManager>
         if (activeCoins.Contains(coin))
         {
             activeCoins.Remove(coin);
+            Debug.Log($"Coins remaining: {activeCoins.Count}/{totalCoinCount}");
+            sceneName = SceneHandler.Instance.GetCurrentSceneName();
+            if (activeCoins.Count == 0 && sceneName != "MainMenu" && sceneName != "GameOver" && sceneName != "_Preload")
+            {
+                SceneHandler.Instance.LoadNextScene();
+            }
         }
-    }
-
-    private int CountCoins()
-    {
-        return activeCoins.Count;
     }
 }
