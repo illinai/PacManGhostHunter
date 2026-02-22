@@ -5,7 +5,5 @@ The following game is inspired by the classic Pac-Man game, but adds a twist mec
 
 The game ends when the player collects all of the yellow coins in all 3 levels, or when they lose all lives.
 
-The game can be played on [itch.io](https://muesli-joy.itch.io/pac-man-ghost-hunter).
-
 ### Gameplay Video Demo
 https://github.com/user-attachments/assets/6eba13ad-f934-4a95-bf1b-5a70c01022be
